@@ -1,6 +1,7 @@
 
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -13,9 +14,30 @@ import javax.swing.table.DefaultTableModel;
  */
 public class listagemVIEW extends javax.swing.JFrame {
 
-    /**
-     * Creates new form listagemVIEW
-     */
+    private void listarProdutos() {
+        try{
+            ProdutosDAO produtosdao = new ProdutosDAO();
+            
+            DefaultTableModel model = (DefaultTableModel) listaProdutos.getModel();
+            model.setNumRows(0);
+            listaProdutos.setRowSorter(new TableRowSorter(model));
+            model.setNumRows(0);
+            
+            ArrayList<ProdutosDTO> listagem = produtosdao.listarProdutos();
+            
+            for (int i = 0; i < listagem.size(); i++){
+                model.addRow(new Object[]{
+                listagem.get(i).getId(),
+                listagem.get(i).getNome(),
+                listagem.get(i).getValor(),
+                listagem.get(i).getStatus()
+            });
+            }
+        }catch (Exception e){
+            
+        }
+    }
+    
     public listagemVIEW() {
         initComponents();
         listarProdutos();
@@ -200,26 +222,5 @@ public class listagemVIEW extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable listaProdutos;
     // End of variables declaration//GEN-END:variables
-
-    private void listarProdutos(){
-        try {
-            ProdutosDAO produtosdao = new ProdutosDAO();
-            
-            DefaultTableModel model = (DefaultTableModel) listaProdutos.getModel();
-            model.setNumRows(0);
-            
-            ArrayList<ProdutosDTO> listagem = produtosdao.listarProdutos();
-            
-            for(int i = 0; i < listagem.size(); i++){
-                model.addRow(new Object[]{
-                    listagem.get(i).getId(),
-                    listagem.get(i).getNome(),
-                    listagem.get(i).getValor(),
-                    listagem.get(i).getStatus()
-                });
-            }
-        } catch (Exception e) {
-        }
-    
-    }
+   
 }
