@@ -13,6 +13,7 @@ import java.sql.Connection;
 import javax.swing.JOptionPane;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.sql.SQLException;
 
 
 public class ProdutosDAO {
@@ -65,6 +66,31 @@ public class ProdutosDAO {
         return listagem;
     }
     
+    public int venderProduto(int id){
+        int status;
+        
+        try{
+            conn = new conectaDAO().connectDB();
+            
+            String produtovendido = "Vendido";
+            
+            PreparedStatement st = conn.prepareStatement("UPDATE indice SET status = ? WHERE id = ?");
+            
+            st.setInt(2, id);
+            st.setString(1, produtovendido);
+            
+            status = st.executeUpdate();
+            
+            return status;
+            
+        }catch (SQLException ex) {
+
+			System.out.println(ex.getErrorCode());
+
+			return ex.getErrorCode();
+
+		}
+    }
     
     
         
